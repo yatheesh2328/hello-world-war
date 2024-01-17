@@ -3,4 +3,6 @@ pipeline {
   stages {
     stage ('checkout') {
       steps {
-        git clone `
+        git clone `https://github.com/yatheesh2328/hello-world-war.git`
+          }
+    }
