@@ -14,7 +14,7 @@ pipeline {
 }
     stage('deploy') {
       steps {
-        sh 'sudo cp /home/slave1/workspace/Pipeline_01/target/hello-world-war-1.0.0.war /opt/apache-tomcat-8.5.98/webapps/'
+        sh 'scp /home/slave1/workspace/Pipeline_01/target/hello-world-war-1.0.0.war /opt/apache-tomcat-8.5.98/webapps/'
   }
 }
   }
