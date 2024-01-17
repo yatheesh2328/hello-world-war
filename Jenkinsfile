@@ -14,8 +14,7 @@ pipeline {
 }
     stage('deploy') {
       steps {
-        sh 'ssh root@13.53.66.251'
-        sh 'scp /home/slave1/workspace/Pipeline_01/target/hello-world-war-1.0.0.war /apache-tomcat-9.0.85/webapps'
+      sh 'sh 'sudo cp /home/slave1/workspace/Pipeline_01/target/hello-world-war-1.0.0.war /apache-tomcat-9.0.85/webapps'
   }
 }
   }
