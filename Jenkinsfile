@@ -12,5 +12,8 @@ pipeline {
         sh 'mvn clean install'
   }
 }
+    stage ('deploy') {
+      steps {
+        sh 'scp /home/slave3/workspace/demoP1/target/hello-world-war-1.0.0.war root@172.31.17.229:/opt/apache-tomcat-8.5.98/webapps/'
     }
 }
