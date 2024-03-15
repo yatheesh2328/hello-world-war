@@ -10,7 +10,7 @@ pipeline {
     stage('build') {
       steps {
         sh 'echo "inside build"'
-        dir("hello-world-war") {
+         dir("hello-world-war") {
           sh 'echo "inside dir"'
           sh 'docker build -t tomcat-war:1.0 .'
         }
