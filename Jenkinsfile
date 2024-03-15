@@ -13,6 +13,7 @@ pipeline {
           sh 'docker build -t tomcat-war:1.0 .'
         }
 }
+    }
       stage ('deploy') {
         steps {
           sh 'docker rm -f tomcat-war'
@@ -21,4 +22,3 @@ pipeline {
 }
     }
   }
-}
