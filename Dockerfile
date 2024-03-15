@@ -1,7 +1,7 @@
 FROM maven:3.3-jdk-8 as maven-builder
 ARG TEST=/var/lib
 WORKDIR $TEST
-COPY ./hello-world-war .
+COPY . .
 RUN mvn clean install
 
 FROM tomcat:9.0
