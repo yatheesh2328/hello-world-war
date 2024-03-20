@@ -30,7 +30,7 @@ pipeline {
         stage('Pull_Deploy') {
             parallel {
                 stage('deploy01') {
-                    agent { label 'slave02' }
+                    agent { label 'slave-02' }
                     steps {
                         script {
                             withCredentials([usernamePassword(credentialsId: 'd78a9014-fc35-4ef4-90a5-4f45c19d5f65', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
@@ -43,7 +43,7 @@ pipeline {
                     }
                 }
                 stage('deploy02') {
-                    agent { label 'slave02' }
+                    agent { label 'slave-02' }
                     steps {
                         script {
                             withCredentials([usernamePassword(credentialsId: 'd78a9014-fc35-4ef4-90a5-4f45c19d5f65', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
