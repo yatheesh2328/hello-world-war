@@ -1,5 +1,5 @@
 pipeline {
-  agent {label 'slave1'}
+  agent { label 'slave1' }
   stages {
     stage('checkout') {
       steps {
@@ -10,16 +10,19 @@ pipeline {
     stage('build') {
       steps {
         sh 'echo "inside build"'
-         dir("hello-world-war") {
+        dir("hello-world-war") {
           sh 'echo "inside dir"'
-          sh 'docker build -t tomcat-war:${BUILD_NUMBER} .'
+          sh "docker build -t tomcat-war:${BUILD_NUMBER} ."
         }
       }
     }
-    stage('deploy') {
+    stage('Docker_push') {
       steps {
-        sh 'docker rm -f tomcat-war'
-        sh 'docker  run -d -p 8080:8080 --name tomcat-war tomcat-war:${BUILD_NUMBER}'
+        script {
+          withDockerRegistry(credentialsId: 'dockerhub-yatish2823', url: 'https://hub.docker.com') {
+            sh "docker push tomcat-war:${BUILD_NUMBER}"
+          }
+        }
       }
     }
   }
