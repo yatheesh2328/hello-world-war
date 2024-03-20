@@ -19,7 +19,7 @@ pipeline {
     stage('Docker_push') {
       steps {
         script {
-          withDockerRegistry(credentialsId: 'dockerhub-yatish2823', url: 'https://hub.docker.com') {
+          withDockerRegistry(credentialsId: 'dockerhub-yatish2823', url: '') {
             sh "docker push tomcat-war:${BUILD_NUMBER}"
           }
         }
