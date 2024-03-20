@@ -21,7 +21,8 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'd78a9014-fc35-4ef4-90a5-4f45c19d5f65', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                         sh "docker login -u $USERNAME -p $PASSWORD"
-                        sh "docker push tomcat-war:${BUILD_NUMBER}"
+                        sh "docker tag tomcat-war:${BUILD_NUMBER} yatish2823/tomcat-project:${BUILD_NUMBER} ."
+                        sh "docker push yatish2823/tomcat-project:${BUILD_NUMBER}"
                     }
                 }
             }
