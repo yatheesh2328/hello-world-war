@@ -27,5 +27,35 @@ pipeline {
                 }
             }
         }
+        stage('Pull_Deploy') {
+            parallel {
+                stage('deploy01') {
+                    agent { label 'slave2' }
+                    steps {
+                        script {
+                            withCredentials([usernamePassword(credentialsId: 'd78a9014-fc35-4ef4-90a5-4f45c19d5f65', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                                sh "docker login -u $USERNAME -p $PASSWORD"
+                                sh "docker pull yatish2823/tomcat-project:${BUILD_NUMBER}"
+                                sh 'docker rm -f cont01 || true'
+                                sh 'docker run -d -p 8080:8080 --name cont01 yatish2823/tomcat-project:${BUILD_NUMBER}'
+                            }
+                        }
+                    }
+                }
+                stage('deploy02') {
+                    agent { label 'slave2' }
+                    steps {
+                        script {
+                            withCredentials([usernamePassword(credentialsId: 'd78a9014-fc35-4ef4-90a5-4f45c19d5f65', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                                sh "docker login -u $USERNAME -p $PASSWORD"
+                                sh "docker pull yatish2823/tomcat-project:${BUILD_NUMBER}"
+                                sh 'docker rm -f cont02 || true'
+                                sh 'docker run -d -p 8081:8080 --name cont02 yatish2823/tomcat-project:${BUILD_NUMBER}'
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
