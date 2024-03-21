@@ -19,7 +19,7 @@ pipeline {
         stage('Docker Push') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'd41611e1-03d8-4c24-a4e1-d2b0bc262934', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                         sh "docker login -u $USERNAME -p $PASSWORD"
                         sh "docker tag tomcat-war:${BUILD_NUMBER} yatish2823/tomcat-project:${BUILD_NUMBER}"
                         sh "docker push yatish2823/tomcat-project:${BUILD_NUMBER}"
@@ -33,7 +33,7 @@ pipeline {
                     agent { label 'slave02' }
                     steps {
                         script {
-                            withCredentials([usernamePassword(credentialsId: 'd41611e1-03d8-4c24-a4e1-d2b0bc262934', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                            withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                                 sh "docker login -u $USERNAME -p $PASSWORD"
                                 sh "docker pull yatish2823/tomcat-project:${BUILD_NUMBER}"
                                 sh 'docker rm -f cont01 || true'
@@ -46,7 +46,7 @@ pipeline {
                     agent { label 'slave03' }
                     steps {
                         script {
-                            withCredentials([usernamePassword(credentialsId: 'd41611e1-03d8-4c24-a4e1-d2b0bc262934', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                            withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                                 sh "docker login -u $USERNAME -p $PASSWORD"
                                 sh "docker pull yatish2823/tomcat-project:${BUILD_NUMBER}"
                                 sh 'docker rm -f cont01 || true'
