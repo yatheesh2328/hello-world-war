@@ -1,5 +1,5 @@
 pipeline {
-   agent { label 'slave1' }
+   agent { label 'slave01' }
     stages {
         stage('Checkout') {
             steps {
@@ -19,7 +19,7 @@ pipeline {
         stage('Docker Push') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'd78a9014-fc35-4ef4-90a5-4f45c19d5f65', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                    withCredentials([usernamePassword(credentialsId: 'd41611e1-03d8-4c24-a4e1-d2b0bc262934', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                         sh "docker login -u $USERNAME -p $PASSWORD"
                         sh "docker tag tomcat-war:${BUILD_NUMBER} yatish2823/tomcat-project:${BUILD_NUMBER}"
                         sh "docker push yatish2823/tomcat-project:${BUILD_NUMBER}"
@@ -30,10 +30,10 @@ pipeline {
         stage('Pull & Deploy') {
             parallel {
                 stage('Prod') {
-                    agent { label 'slave-03' }
+                    agent { label 'slave02' }
                     steps {
                         script {
-                            withCredentials([usernamePassword(credentialsId: 'd78a9014-fc35-4ef4-90a5-4f45c19d5f65', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                            withCredentials([usernamePassword(credentialsId: 'd41611e1-03d8-4c24-a4e1-d2b0bc262934', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                                 sh "docker login -u $USERNAME -p $PASSWORD"
                                 sh "docker pull yatish2823/tomcat-project:${BUILD_NUMBER}"
                                 sh 'docker rm -f cont01 || true'
@@ -43,14 +43,14 @@ pipeline {
                     }
                 }
                 stage('Dev') {
-                    agent { label 'slave-02' }
+                    agent { label 'slave03' }
                     steps {
                         script {
-                            withCredentials([usernamePassword(credentialsId: 'd78a9014-fc35-4ef4-90a5-4f45c19d5f65', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                            withCredentials([usernamePassword(credentialsId: 'd41611e1-03d8-4c24-a4e1-d2b0bc262934', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                                 sh "docker login -u $USERNAME -p $PASSWORD"
                                 sh "docker pull yatish2823/tomcat-project:${BUILD_NUMBER}"
-                                sh 'docker rm -f cont02 || true'
-                                sh 'docker run -d -p 8081:8080 --name cont02 yatish2823/tomcat-project:${BUILD_NUMBER}'
+                                sh 'docker rm -f cont01 || true'
+                                sh 'docker run -d -p 8081:8080 --name cont01 yatish2823/tomcat-project:${BUILD_NUMBER}'
                             }
                         }
                     }
