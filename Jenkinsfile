@@ -37,7 +37,7 @@ pipeline {
                                 sh "docker login -u $USERNAME -p $PASSWORD"
                                 sh "docker pull yatish2823/tomcat-project:${BUILD_NUMBER}"
                                 sh 'docker rm -f cont01 || true'
-                                sh 'docker run -d -p 8080:8080 --name cont01 yatish2823/tomcat-project:${BUILD_NUMBER}'
+                                sh 'docker run -d -p 8085:8085 --name cont01 yatish2823/tomcat-project:${BUILD_NUMBER}'
                             }
                         }
                     }
@@ -50,7 +50,7 @@ pipeline {
                                 sh "docker login -u $USERNAME -p $PASSWORD"
                                 sh "docker pull yatish2823/tomcat-project:${BUILD_NUMBER}"
                                 sh 'docker rm -f cont01 || true'
-                                sh 'docker run -d -p 8081:8080 --name cont01 yatish2823/tomcat-project:${BUILD_NUMBER}'
+                                sh 'docker run -d -p 8085:8085 --name cont01 yatish2823/tomcat-project:${BUILD_NUMBER}'
                             }
                         }
                     }
