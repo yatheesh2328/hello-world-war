@@ -1,5 +1,5 @@
 pipeline {
-   agent { label 'slave01' }
+    agent any
     stages {
         stage('Checkout') {
             steps {
@@ -19,44 +19,17 @@ pipeline {
         stage('Docker Push') {
             steps {
                 script {
+                    // Use withCredentials block for Docker Hub login
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                        // Login to Docker Hub
                         sh "docker login -u $USERNAME -p $PASSWORD"
+                        // Tag the built Docker image
                         sh "docker tag tomcat-war:${BUILD_NUMBER} yatish2823/tomcat-project:${BUILD_NUMBER}"
+                        // Push the Docker image to Docker Hub
                         sh "docker push yatish2823/tomcat-project:${BUILD_NUMBER}"
-                    }
-                }
-            }
-        }
-        stage('Pull & Deploy') {
-            parallel {
-                stage('Prod') {
-                    agent { label 'slave02' }
-                    steps {
-                        script {
-                            withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                                sh "docker login -u $USERNAME -p $PASSWORD"
-                                sh "docker pull yatish2823/tomcat-project:${BUILD_NUMBER}"
-                                sh 'docker rm -f cont01 || true'
-                                sh 'docker run -d -p 8080:8080 --name cont01 yatish2823/tomcat-project:${BUILD_NUMBER}'
-                            }
-                        }
-                    }
-                }
-                stage('Dev') {
-                    agent { label 'slave03' }
-                    steps {
-                        script {
-                            withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                                sh "docker login -u $USERNAME -p $PASSWORD"
-                                sh "docker pull yatish2823/tomcat-project:${BUILD_NUMBER}"
-                                sh 'docker rm -f cont01 || true'
-                                sh 'docker run -d -p 8080:8080 --name cont01 yatish2823/tomcat-project:${BUILD_NUMBER}'
-                            }
-                        }
                     }
                 }
             }
         }
     }
 }
-
