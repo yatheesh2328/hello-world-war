@@ -16,7 +16,7 @@ pipeline {
             }
         }
     }
-    ]
+}
 //         stage('Docker Push') {
 //             steps {
 //                 withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
