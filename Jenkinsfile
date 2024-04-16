@@ -21,8 +21,8 @@ pipeline {
                     echo 'Logging into Docker Hub'
                     sh "docker login -u $USERNAME -p $PASSWORD"
                     echo 'Tagging and pushing Docker image'
-                    sh "docker tag tomcat-war:${BUILD_NUMBER} yatish2823/custom-images:${BUILD_NUMBER}"
-                    sh "docker push yatish2823/custom-images:${BUILD_NUMBER}"
+                    sh "docker tag tomcat-war:${BUILD_NUMBER} yatheesh2328/custom-images:${BUILD_NUMBER}"
+                    sh "docker push yatheesh2328/custom-images:${BUILD_NUMBER}"
                 }
             }
         }
