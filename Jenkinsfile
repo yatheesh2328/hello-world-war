@@ -1,4 +1,3 @@
-Modify this pipeline to use the image from docker hub and create an helm and deploy to exiting eks cluster
 pipeline {
     agent any
     stages {
@@ -27,10 +26,12 @@ pipeline {
                 }
             }
         }
-        stage ('Helm Deploy') {
+        stage('Helm Deploy') {
             steps {
-                script {
-                    sh "helm upgrade first --install mychart --namespace helm-deployment --set image.tag=$BUILD_NUMBER"
+                withCredentials([kubernetesServiceAccount(credentialsId: 'eks-cluster', namespace: 'hello-world-war')]) {
+                    script {
+                        sh "helm upgrade first --install hello-world-war --namespace hello-world-war --set image.tag=${BUILD_NUMBER}"
+                    }
                 }
             }
         }
