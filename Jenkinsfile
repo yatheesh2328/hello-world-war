@@ -3,8 +3,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                cleanWs() // Clean workspace before checking out
-                git 'https://github.com/yatheesh2328/hello-world-war.git'
+                sh 'rm -rf hello-world-war'
+                sh 'git clone https://github.com/yatheesh2328/hello-world-war.git'
             }
         }
         stage('Build') {
