@@ -26,7 +26,6 @@ pipeline {
                 }
             }
         }
-        
 	stage('Helm Deploy') {
             steps {
                 // Authenticate with AWS using IAM credentials stored in Jenkins
