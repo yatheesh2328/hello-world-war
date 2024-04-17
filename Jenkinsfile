@@ -28,7 +28,6 @@ pipeline {
         }
         stage('Helm Deploy') {
             steps {
-                withCredentials([kubernetesServiceAccount(credentialsId: 'eks-cluster', namespace: 'hello-world-war')]) {
                     script {
                         sh "helm upgrade first --install hello-world-war --namespace hello-world-war --set image.tag=${BUILD_NUMBER}"
                     }
@@ -36,4 +35,4 @@ pipeline {
             }
         }
     }
-}
+
