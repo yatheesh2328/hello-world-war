@@ -33,6 +33,21 @@ pipeline {
                     }
                 }
             }
+		        stage('Helm Deploy') {
+            steps {
+                // Authenticate with AWS using IAM credentials stored in Jenkins
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: '03bb86f5-d824-42dd-b9c7-da3dc566f56c',
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                ]]) {
+                    sh "aws eks --region ap-south-1 update-kubeconfig --name my-eks-cluster"
+                    echo 'Deploying to Kubernetes using Helm'
+                    // Deploy Helm chart to Kubernetes cluster
+                    sh "helm upgrade first  /var/lib/jenkins/workspace/eks-docker/hello-world-war --namespace hello-world-war --set image.tag=$BUILD_NUMBER --dry-run"
+                    sh "helm upgrade first  /var/lib/jenkins/workspace/eks-docker/hello-world-war --namespace hello-world-war --set image.tag=$BUILD_NUMBER"
+                }
+            }
         }
     }
-
