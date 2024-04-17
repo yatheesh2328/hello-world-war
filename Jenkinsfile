@@ -26,19 +26,13 @@ pipeline {
                 }
             }
         }
-        stage('Helm Deploy') {
-            steps {
-                    script {
-                        sh "helm upgrade first --install hello-world-war --namespace hello-world-war --set image.tag=${BUILD_NUMBER}"
-                    }
-                }
-            }
-		        stage('Helm Deploy') {
+        
+	stage('Helm Deploy') {
             steps {
                 // Authenticate with AWS using IAM credentials stored in Jenkins
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: '03bb86f5-d824-42dd-b9c7-da3dc566f56c',
+                    credentialsId: 'aws-credentials',
                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                 ]]) {
@@ -51,3 +45,4 @@ pipeline {
             }
         }
     }
+}
