@@ -19,7 +19,9 @@ spec:
         runAsUser: 0
       containers:
         - name: tomcat-container
-          image: tomcat:9.0  
+          image: tomcat:9.0
+      imagePullSecrets:
+        - name: regcred
           volumeMounts: 
             - name: {{ .Values.volumeName }}
               mountPath: /usr/local/tomcat/webapps
