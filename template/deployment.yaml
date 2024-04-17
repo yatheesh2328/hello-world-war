@@ -19,7 +19,7 @@ spec:
         runAsUser: 0
       containers:
         - name: tomcat-container
-          image: tomcat:9.0
+          image: {{ .Values.imageName }}:{{ .Values.image.tag }}
       imagePullSecrets:
         - name: regcred
           volumeMounts: 
