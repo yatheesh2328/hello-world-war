@@ -7,10 +7,10 @@ spec:
   rules:
   - http:
       paths:
-      - path: /tomcat
+      - path: /hello-world-war-1.0.0
         pathType: Prefix
         backend:
           service:
             name: {{ .Values.serviceName }}
             port:
-              number: 8080
+              number: 8090
